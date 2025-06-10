@@ -31,6 +31,9 @@ Entre sus funcionalidades principales se encuentran:
     - Patrón API Gateway
     - Strangler
     - Decompose by Business Capability
+    - Resiliencia
+        - Cache de Objetos
+        - Bulkhead
 - [ ] Diseño de **APIs** para comunicación entre servicios
 
 ### Desarrollo y Despliegue
