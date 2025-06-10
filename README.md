@@ -46,10 +46,9 @@ Entre sus funcionalidades principales se encuentran:
 ### Control de Versiones
 - [ ] Uso de **Git** con flujos de trabajo **Trunk-based Development**
 - [ ] **Versionado** adecuado del código
-
-- Una arquitectura [Monolítica](https://github.com/Juanimaz10/Ingenieria_de_software)
-- Metodologías ágiles utilizando Scrum a través de **GitHub Projects**
-- Contenedor para servicios y para el proyecto con Docker (carpeta docker)
+- [ ] Una arquitectura [Monolítica](https://github.com/Juanimaz10/Ingenieria_de_software)
+- [ ] Metodologías ágiles utilizando Scrum a través de **GitHub Projects**
+- [ ] Contenedor para servicios y para el proyecto con Docker (carpeta docker)
 
 ## 🏗️ Estructura del Proyecto
 
