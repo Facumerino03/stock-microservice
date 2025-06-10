@@ -9,7 +9,7 @@
 
 ## 📝 Descripción del Microservicio de Stock
 
-Este microservicio gestiona el stock de productos de la aplicación. Permite registrar, consultar, actualizar y eliminar información relacionada con las existencias de artículos, lotes y movimientos de inventario (entradas y salidas). Se encarga de mantener actualizado el inventario, calcular el stock disponible por artículo y asegurar la integridad de los datos relacionados con los productos almacenados.
+Este microservicio gestiona el stock de productos de la aplicación. Permite registrar, consultar y actualizar información relacionada con las existencias de artículos, lotes y movimientos de inventario (entradas y salidas). Se encarga de mantener actualizado el inventario, calcular el stock disponible por artículo y asegurar la integridad de los datos relacionados con los productos almacenados.
 
 Entre sus funcionalidades principales se encuentran:
 - Registrar movimientos de stock (entradas y salidas) asociados a artículos y lotes.
@@ -34,6 +34,7 @@ Entre sus funcionalidades principales se encuentran:
     - Resiliencia
         - Cache de Objetos
         - Bulkhead
+        - Circuit Breaker
 - [ ] Diseño de **APIs** para comunicación entre servicios
 
 ### Desarrollo y Despliegue
