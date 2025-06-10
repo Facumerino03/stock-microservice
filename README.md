@@ -80,7 +80,7 @@ Gestión de Stock/
 
 - **Lenguaje:** Python
 - **Framework:** Flask
-- **Arquitectura:** Monolítico - Aplicación Cliente Servidor (Backend)
+- **Arquitectura:** Microservicio Stock - Aplicación Cliente Servidor (Backend)
 - **Control de Versiones:** Git
 - **Comunicación:** APIs REST/JSON
 - **Principios y Patrones:** YAGNI, SOLID, DRY, MVC, Repository
