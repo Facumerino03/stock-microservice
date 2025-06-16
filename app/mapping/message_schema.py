@@ -1,6 +1,5 @@
 from marshmallow import Schema,fields
 
-
 class MessageMap(Schema):
 
     message:str = fields.String(required=True, dump_only=True)

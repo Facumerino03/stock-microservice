@@ -142,3 +142,6 @@ pyvenv.cfg
 docker/db/data/
 
 activate_venv.ps1
+
+# VS Code settings
+.vscode/

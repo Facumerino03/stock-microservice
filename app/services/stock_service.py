@@ -1,45 +1,70 @@
-from app.models import Stock, ReceiptItem, Article
-from app.repositories import StockRepository, BrandRepository, ArticleRepository, ReceiptRepository
-
+from app.models import Stock, ReceiptItem, Article, Receipt, ReceiptType
+from app.repositories import StockRepository
+from app.services import ArticleService
+from sqlalchemy import func #type: ignore
+from app import db, cache
+import requests # type: ignore 
+from tenacity import retry, wait_random, stop_after_attempt # type: ignore
+import os
 
 class StockService():
 
     @staticmethod
+    @retry(wait=wait_random(min=1, max=3), stop=stop_after_attempt(3))
     def register(stock: Stock) -> Stock:
-        article = ArticleRepository.find(stock.article.id)
-        if not article:
-            raise ValueError(f"Article with ID {stock.article.id} does not exist.")
+        try:
+            article = ArticleService.find(stock.id_article)
+        except Exception:
+            raise ValueError(f"Article with ID {stock.id_article} does not exist.")
 
-        receipt = ReceiptRepository.find(stock.receipt.id)
-        if not receipt:
-            raise ValueError(f"Receipt with ID {stock.receipt.id} does not exist.")
+        URL_RECEIPT_SERVICE = os.getenv('URL_RECEIPT_SERVICE')
+        if not URL_RECEIPT_SERVICE:
+            raise ValueError("Environment variable 'URL_RECEIPT_SERVICE' is not set.")
+        
+        receipt_r = requests.get(f"{URL_RECEIPT_SERVICE}/receipts/{stock.id_receipt}", verify=False)
+        if receipt_r.status_code != 200:
+            raise ValueError(f"Receipt with ID {stock.id_receipt} does not exist.")
 
-        brand = BrandRepository.find(article.brand_id)
-        if not brand:
-            raise ValueError(f"Brand with ID {article.brand_id} does not exist.")
         return StockRepository.save(stock)
 
     @staticmethod
+    @retry(wait=wait_random(min=1, max=3), stop=stop_after_attempt(3))
     def calculate_stock(article_id: int) -> int:
-        article = ArticleRepository.find(article_id)
-        if not article:
+        '''
+        Calculate the total stock for a given article by summing the quantities from all receipts.
+        :param article_id: ID of the article to calculate stock for.
+        :return: Total stock quantity for the article.
+        '''
+        try:
+            article = ArticleService.find(article_id)
+        except Exception:
             raise ValueError(f"Article with ID {article_id} does not exist.")
         
-        receipt_items = ReceiptItem.query.filter_by(id_article=article_id).all()
-
-        total_stock = 0
-        for item in receipt_items:
-            type_entry = item.receipt.receipt_type.type_entry
-            total_stock += item.quantity * type_entry
-
-        return total_stock
+        # Verificar cache primero
+        cache_key = f'stock_calculation_{article_id}'
+        result = cache.get(cache_key)
+        if result is not None:
+            return result
+    
+        # Calcular el stock total usando una consulta SQL optimizada
+        total_stock = db.session.query(
+            func.sum(ReceiptItem.quantity * ReceiptType.type_entry)
+        ).join(
+            Receipt, ReceiptItem.id_receipt == Receipt.id
+        ).join(
+            ReceiptType, Receipt.id_receipt_type == ReceiptType.id
+        ).filter(
+            ReceiptItem.id_article == article_id
+        ).scalar()
+        
+        result = total_stock if total_stock is not None else 0
+        
+        cache.set(cache_key, result, timeout=600)
+        
+        return result
     
     @staticmethod
     def save(stock: Stock) -> Stock:
-        return StockRepository.save(stock)
-    
-    @staticmethod
-    def register(stock: Stock) -> Stock:
         return StockRepository.save(stock)
 
     @staticmethod
@@ -54,4 +79,3 @@ class StockService():
     def find_by(**kwargs) -> list[Stock]:
         return StockRepository.find_by(**kwargs)
 
-   
