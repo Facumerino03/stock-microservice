@@ -6,8 +6,6 @@ from app import cache
 from tenacity import retry, wait_random, stop_after_attempt # type: ignore
 import os
 
-
-
 class ArticleService():
 
     @staticmethod

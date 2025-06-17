@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields, post_load #type: ignore
-from app.dto import ArticleDTO
+from app.models import Article
 
 
 class ArticleMap(Schema):
@@ -15,4 +15,4 @@ class ArticleMap(Schema):
 
     @post_load
     def bind_article(self, data, **kwargs):
-        return ArticleDTO(**data)
+        return Article(**data)
