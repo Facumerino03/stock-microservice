@@ -23,7 +23,11 @@ services:
             - "traefik.http.routers.stock.rule=Host(`stock.universidad.localhost`)"
             - "traefik.http.routers.stock.tls=true"
             - "traefik.http.services.stock.loadbalancer.server.port=5000"
-            - "traefik.docker.network=mired"    
+            - "traefik.docker.network=mired"
+            # Patron Circuit Breaker https://doc.traefik.io/traefik/middlewares/http/circuitbreaker/
+            - "traefik.http.middlewares.receipt.circuitbracker.expression=NetworkErrorRatio() > 0.5"
+            - "traefik.http.middlewares.receipt.circuitbracker.expression=ResponseCodeRatio(500,600,0,600) > 0.25"
+            - "traefik.http.middlewares.receipt.circuitbracker.expression=LatencyAtQuantileMS(50) > 100"
 
 networks:
     mired:
