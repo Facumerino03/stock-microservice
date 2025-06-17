@@ -7,6 +7,7 @@ URL_ARTICLE_SERVICE="https://article.universidad.localhost/api/v1"
 URL_STOCK_SERVICE="https://stock.universidad.localhost/api/v1"
 URL_NOTIFICATION_SERVICE="https://notification.universidad.localhost/api/v1"
 URL_RECEIPT_SERVICE="https://receipt.universidad.localhost/api/v1"
+FLASK_CONTEXT="production"
 REDIS_HOST='localhost'
 REDIS_PORT='6379'
 REDIS_DB='0'

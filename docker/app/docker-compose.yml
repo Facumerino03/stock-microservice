@@ -18,6 +18,8 @@ services:
             - REDIS_PORT=${REDIS_PORT}
             - REDIS_DB=${REDIS_DB}
             - REDIS_PASSWORD=${REDIS_PASSWORD}
+            - URL_ARTICLE_SERVICE=${URL_ARTICLE_SERVICE}
+            - URL_RECEIPT_SERVICE=${URL_RECEIPT_SERVICE}
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.stock.rule=Host(`stock.universidad.localhost`)"
