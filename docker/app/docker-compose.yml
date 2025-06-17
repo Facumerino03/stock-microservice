@@ -1,6 +1,6 @@
 services:
     stock:
-        image: stock-microservice:v1.0.0
+        image: stock-microservice:1.0.0
         deploy:
             replicas: 2
         networks:

@@ -1,6 +1,7 @@
 from app.models import Stock, ReceiptItem, Receipt, ReceiptType
 from app.repositories import StockRepository
-from app.services import ArticleService, ReceiptService
+from app.services.article_service import ArticleService
+from app.services.receipt_service import ReceiptService
 from sqlalchemy import func #type: ignore
 from app import db, cache
 from tenacity import retry, wait_random, stop_after_attempt # type: ignore
